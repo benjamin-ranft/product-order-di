@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +19,25 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService service;
+    private final ProductDb productDb;
 
     @Autowired
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, ProductDb productDb) {
         this.service = service;
+        this.productDb = productDb;
     }
 
     @GetMapping
-    public List<Product> getProducts(){
-    return service.getProducts();
+    public List<Product> search(@RequestParam(required = false) String q){
+        if (q == null || q.isBlank()){
+            return productDb.getProductList();
+        }
+        return productDb.search(q);
+    }
 
-}
-    @GetMapping ("search")
-    public List<Product> search(@RequestParam String q) {
+
+    /*@GetMapping (path="{q}")
+    public List<Product> searchAlt(@PathVariable String q) {
         List<Product> searchList = new ArrayList<>();
 
         for (int i = 0; i < getProducts().size(); i++) {
@@ -43,7 +46,8 @@ public class ProductController {
                 searchList.add(getProducts().get(i));
             }
         }
- 	 return searchList;
-    }
+        return searchList;
 
+}*/
 }
+

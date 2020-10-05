@@ -2,8 +2,10 @@ package de.neuefische.productorderdi.db;
 
 import de.neuefische.productorderdi.model.Product;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.util.ArrayList;
 import java.util.List;
 @Repository
 public class ProductDb {
@@ -15,4 +17,16 @@ public class ProductDb {
     public List<Product> getProductList(){
         return productList;
     }
+
+    public List<Product> search(String q) {
+        List<Product> searchList = new ArrayList<>();
+        String lowerCaseQ = q.toLowerCase();
+
+        for (Product product : productList) {
+
+            if (product.getName().toLowerCase().contains(lowerCaseQ)) {
+                searchList.add(product);
+            }
+        }
+        return searchList;}
 }

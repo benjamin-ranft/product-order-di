@@ -2,11 +2,10 @@ package de.neuefische.productorderdi.db;
 
 import de.neuefische.productorderdi.model.Product;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class ProductDb {
 
